@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Remera",
+    "description": "Spectre Negro",
+    "code": "665439",
+    "price": 33000,
+    "status": true,
+    "stock": 30,
+    "category": "Remera"
+  },
+  {
+    "id": 2,
+    "title": "Remera",
+    "description": "Boss negra",
+    "code": "665431",
+    "price": 28000,
+    "status": true,
+    "stock": 40,
+    "category": "Remera"
+  },
+  {
+    "id": 3,
+    "title": "Short",
+    "description": "Khan Negro",
+    "code": "665451",
+    "price": 35000,
+    "status": true,
+    "stock": 27,
+    "category": "Short"
+  },
+  {
+    "id": 4,
+    "title": "Buzo",
+    "description": "Output Negro",
+    "code": "665441",
+    "price": 55000,
+    "status": true,
+    "stock": 35,
+    "category": "Buzo"
+  }
+]
