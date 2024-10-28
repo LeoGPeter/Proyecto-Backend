@@ -54,33 +54,27 @@ router.put('/:pid', (req, res) => {
     const products = readProducts();
     const productId = parseInt(req.params.pid);
   
-    // Buscar el índice del producto por ID
     const productIndex = products.findIndex(p => p.id === productId);
     
     if (productIndex === -1) {
       return res.status(404).json({ error: 'Producto no encontrado' });
     }
   
-    // Actualizar los campos del producto (sin modificar el ID)
+    
     const updatedProduct = { 
-      ...products[productIndex],  // Copiar el producto original
-      ...req.body                 // Sobrescribir solo los campos enviados en el body
+      ...products[productIndex], 
+      ...req.body             
     };
   
-    // Asegurarse de que el ID no se modifique
     updatedProduct.id = products[productIndex].id;
   
-    // Verifica que el producto actualizado es correcto
     console.log("Producto actualizado:", updatedProduct);
   
-    // Reemplazar el producto antiguo con el nuevo en la lista de productos
     products[productIndex] = updatedProduct;
   
-    // Guardar los productos actualizados en el archivo
     console.log("Productos antes de guardar:", products);
     writeProducts(products);
   
-    // Devolver la respuesta con el producto actualizado
     res.json({ message: 'Producto actualizado con éxito', product: updatedProduct });
   });
   
