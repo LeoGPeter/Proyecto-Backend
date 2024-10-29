@@ -1,16 +1,9 @@
-<h1>Productos en Tiempo Real</h1>
-<ul id="productList">
-  {{#each products}}
-    <li>{{this.title}} - {{this.price}}</li>
-  {{/each}}
-</ul>
-
+<h1>Lista de Productos en Tiempo Real</h1>
+    <ul id="productList">
+        {{#each products}}
+        <li>{{this.title}} - ${{this.price}}</li>
+        {{/each}}
+    </ul>
 <script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io();
-    socket.on('updateProducts', (products) => {
-        const productList = document.getElementById('productList');
-        productList.innerHTML = products.map(product => `<li>${product.title} - $${product.price}</li>`).join('');
-    });
-</script>
+<script src="/js/index.js"></script>
 
