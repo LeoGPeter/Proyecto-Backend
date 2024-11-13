@@ -31,12 +31,12 @@
   },
   {
     "id": 4,
-    "title": "Buzo",
-    "description": "Output Negro",
-    "code": "665441",
-    "price": 55000,
+    "title": "Pantalon",
+    "description": "Cargo Negro",
+    "code": "346678",
+    "price": 65900,
     "status": true,
-    "stock": 35,
-    "category": "Buzo"
+    "stock": 45,
+    "category": "Pantalon"
   }
 ]
