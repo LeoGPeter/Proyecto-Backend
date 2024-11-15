@@ -5,7 +5,7 @@ class ProductsManager {
         this.filePath = filePath;
     }
 
-    // Leer productos desde el archivo JSON
+
     readProducts() {
         try {
             const data = fs.readFileSync(this.filePath, 'utf-8');
@@ -16,7 +16,7 @@ class ProductsManager {
         }
     }
 
-    // Escribir productos en el archivo JSON
+
     writeProducts(products) {
         try {
             fs.writeFileSync(this.filePath, JSON.stringify(products, null, 2));
@@ -25,7 +25,7 @@ class ProductsManager {
         }
     }
 
-    // Agregar un nuevo producto
+  
     addProduct(product) {
         const products = this.readProducts();
         const newProduct = {
@@ -37,13 +37,13 @@ class ProductsManager {
         return newProduct;
     }
 
-    // Obtener un producto por ID
+   
     getProductById(productId) {
         const products = this.readProducts();
         return products.find(product => product.id === productId) || null;
     }
 
-    // Actualizar un producto por ID
+
     updateProduct(productId, updatedData) {
         const products = this.readProducts();
         const index = products.findIndex(product => product.id === productId);
@@ -57,7 +57,7 @@ class ProductsManager {
         return updatedProduct;
     }
 
-    // Eliminar un producto por ID
+
     deleteProduct(productId) {
         const products = this.readProducts();
         const index = products.findIndex(product => product.id === productId);

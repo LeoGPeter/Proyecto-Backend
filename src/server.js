@@ -7,6 +7,7 @@ import { Server } from 'socket.io';
 import viewsRouter from './routes/viewsRouter.js';
 import * as path from "path";
 import __dirname from "./utils.js";
+import { connectMongo } from "./config/mongo.js";
 
 const app = express();
 const server = createServer(app);
@@ -30,4 +31,6 @@ io.on('connection', (socket) => {
 });
 
 server.listen(8080, () => console.log('Servidor en puerto 8080'));
+
+connectMongo();
 

@@ -32,11 +32,11 @@
   {
     "id": 4,
     "title": "Pantalon",
-    "description": "Cargo Negro",
-    "code": "346678",
+    "description": "Cargo gris",
+    "code": "346679",
     "price": 65900,
     "status": true,
-    "stock": 45,
+    "stock": 30,
     "category": "Pantalon"
   }
 ]

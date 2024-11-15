@@ -4,13 +4,13 @@ import CartsManager from '../dao/cartsManager.js';
 const router = Router();
 const cartsManager = new CartsManager('./src/data/carrito.json', './src/data/productos.json');
 
-// Crear un nuevo carrito
+
 router.post('/', (req, res) => {
   const newCart = cartsManager.createCart();
   res.status(201).json(newCart);
 });
 
-// Obtener un carrito por ID
+
 router.get('/:cid', (req, res) => {
     const cartId = parseInt(req.params.cid);
     const cart = cartsManager.getCartById(cartId);
@@ -22,7 +22,7 @@ router.get('/:cid', (req, res) => {
     res.json(cart);
 });
 
-// Agregar un producto a un carrito
+
 router.post('/:cid/product/:pid', (req, res) => {
     const cartId = parseInt(req.params.cid);
     const productId = parseInt(req.params.pid);

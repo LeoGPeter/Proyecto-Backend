@@ -6,7 +6,7 @@ class CartsManager {
         this.productsPath = productsPath;
     }
 
-    // Leer todos los carritos
+
     readCarts() {
         try {
             const data = fs.readFileSync(this.cartsPath, 'utf-8');
@@ -17,7 +17,7 @@ class CartsManager {
         }
     }
 
-    // Escribir en el archivo de carritos
+
     writeCarts(carts) {
         try {
             fs.writeFileSync(this.cartsPath, JSON.stringify(carts, null, 2));
@@ -26,7 +26,7 @@ class CartsManager {
         }
     }
 
-    // Leer productos
+
     readProducts() {
         try {
             const data = fs.readFileSync(this.productsPath, 'utf-8');
@@ -37,7 +37,7 @@ class CartsManager {
         }
     }
 
-    // Crear un nuevo carrito
+
     createCart() {
         const carts = this.readCarts();
         const newCart = {
@@ -49,13 +49,13 @@ class CartsManager {
         return newCart;
     }
 
-    // Obtener un carrito por su ID
+
     getCartById(cartId) {
         const carts = this.readCarts();
         return carts.find(c => c.id === cartId) || null;
     }
 
-    // Agregar un producto a un carrito
+
     addProductToCart(cartId, productId) {
         const carts = this.readCarts();
         const products = this.readProducts();
