@@ -51,6 +51,10 @@ router.post('/:cid/products/:pid', async (req, res) => {
         const { cid, pid } = req.params;
         const { quantity = 1 } = req.body;
 
+        if (!mongoose.Types.ObjectId.isValid(cid) || !mongoose.Types.ObjectId.isValid(pid)) {
+            return res.status(400).send('El ID del carrito o producto no es válido');
+        }
+
         // Verificar si el carrito existe
         const cart = await CartModel.findById(cid);
         if (!cart) {
