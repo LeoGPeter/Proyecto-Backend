@@ -2,21 +2,21 @@ const socket = io();
 const productList = document.getElementById('productList');
 
 async function loadProducts() {
-    const response = await fetch('/api/products');
-    const products = await response.json();
+    const response = await fetch('/realtimeproducts');
+    const data = await response.json();
 
+    // Verificar si `data.products` es un array
+    const products = Array.isArray(data.products) ? data.products : [];
 
-    productList.innerHTML = '';
-
-    products.forEach((producto) => {
-        const newProductItem = document.createElement('li');
-        newProductItem.id = `product-${producto._id}`;
-        newProductItem.textContent = `${producto.title} / ${producto.description} - $${producto.price}`;
-        productList.appendChild(newProductItem);
+    products.forEach(product => {
+        const productElement = document.createElement('div');
+        productElement.textContent = `Producto: ${product.title} - Precio: ${product.price}`;
+        document.body.appendChild(productElement);
     });
 }
 
 loadProducts();
+
 
 socket.on('updateProducts', (producto) => {
     const newProductItem = document.createElement('li');

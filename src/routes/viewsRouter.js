@@ -1,6 +1,6 @@
 import express from 'express';
 import fs from 'fs';
-import ProductModel  from '../dao/models/product.model.js';
+import ProductModel from '../dao/models/product.model.js';
 import { CartModel } from '../dao/models/cart.model.js';
 
 const router = express.Router();
@@ -14,10 +14,17 @@ router.get('/home', (req, res) => {
     res.render('home', { products });
 });
 
-router.get('/realtimeproducts', (req, res) => {
-    const products = readProducts(); 
-    res.render('realTimeProducts', { products });
+
+router.get('/realtimeproducts', async (req, res) => {
+    try {
+        const products = await ProductModel.find().lean();
+        res.render('realTimeProducts', { products });
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+        res.status(500).send('Error al cargar los productos en tiempo real');
+    }
 });
+
 
 router.get('/products', async (req, res) => {
     try {
@@ -56,8 +63,6 @@ router.get('/products', async (req, res) => {
     }
 });
 
-// viewsRouter.js
-
 router.get('/products/:pid', async (req, res) => {
     try {
         const { pid } = req.params;
@@ -67,7 +72,6 @@ router.get('/products/:pid', async (req, res) => {
             return res.status(404).send('Producto no encontrado');
         }
 
-        // Renderizar la vista del producto con los datos
         res.render('productDetail', { product });
     } catch (error) {
         console.error('Error al obtener el producto:', error);

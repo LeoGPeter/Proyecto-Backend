@@ -25,7 +25,7 @@ class ProductsManager {
         }
     }
 
-  
+
     addProduct(product) {
         const products = this.readProducts();
         const newProduct = {
@@ -37,7 +37,7 @@ class ProductsManager {
         return newProduct;
     }
 
-   
+
     getProductById(productId) {
         const products = this.readProducts();
         return products.find(product => product.id === productId) || null;
