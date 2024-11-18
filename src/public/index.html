@@ -9,7 +9,7 @@
     <h1>Lista de Productos</h1>
     <ul id="productList">
         {{#each products}}
-        <li>{{this.title}} - ${{this.price}}</li>
+        <li>{{this.title}} {{this.description}} - ${{this.price}}</li>
         {{/each}}
     </ul>
 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat en Vivo</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Chat en Vivo</h1>
+    <ul id="messagesList">
+        {{#each messages}}
+            <li><strong>{{this.user}}:</strong> {{this.message}}</li>
+        {{/each}}
+    </ul>
+
+    <form id="messageForm">
+        <input type="email" id="userEmail" placeholder="Tu correo" required>
+        <input type="text" id="userMessage" placeholder="Escribe tu mensaje" required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        const socket = io();
+        const messagesList = document.getElementById('messagesList');
+        const messageForm = document.getElementById('messageForm');
+        const userEmail = document.getElementById('userEmail');
+        const userMessage = document.getElementById('userMessage');
+
+
+        socket.on('newMessage', (message) => {
+            const newMessageItem = document.createElement('li');
+            newMessageItem.innerHTML = `<strong>${message.user}:</strong> ${message.message}`;
+            messagesList.appendChild(newMessageItem);
+        });
+
+    
+        messageForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const messageData = {
+                user: userEmail.value,
+                message: userMessage.value,
+            };
+
+            const response = await fetch('/chat/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(messageData),
+            });
+
+            if (response.ok) {
+                userMessage.value = '';
+                userMessage.focus();
+            }
+        });
+    </script>
+</body>
+</html>

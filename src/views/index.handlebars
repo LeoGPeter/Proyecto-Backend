@@ -1,0 +1,61 @@
+<h1>Productos</h1>
+<div id="filters">
+    <input type="text" id="query" placeholder="Buscar por categoría o disponibilidad" />
+    <select id="sort">
+        <option value="">Ordenar por precio</option>
+        <option value="asc">Ascendente</option>
+        <option value="desc">Descendente</option>
+    </select>
+    <button id="filterButton">Aplicar Filtros</button>
+</div>
+
+<ul id="productList">
+    {{#each products}}
+    <li>
+        <a href="/products/{{this._id}}">
+            <h3>{{this.title}}</h3>
+            <p>Precio: ${{this.price}}</p>
+            <p>Categoría: {{this.category}}</p>
+            <p>Disponibilidad: {{this.status}}</p>
+        </a>
+        <button onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
+    </li>
+    {{/each}}
+</ul>
+
+<div id="pagination">
+    {{#if hasPrevPage}}
+    <a href="{{prevLink}}">Página Anterior</a>
+    {{/if}}
+    <span>Página {{page}} de {{totalPages}}</span>
+    {{#if hasNextPage}}
+    <a href="{{nextLink}}">Página Siguiente</a>
+    {{/if}}
+</div>
+
+<script>
+    document.getElementById('filterButton').addEventListener('click', () => {
+        const query = document.getElementById('query').value;
+        const sort = document.getElementById('sort').value;
+        window.location.href = `/products?query=${query}&sort=${sort}`;
+    });
+
+    async function addToCart(productId) {
+        try {
+            const response = await fetch(`/api/carts/default/products/${productId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const result = await response.json();
+            if (result.status === 'success') {
+                alert('Producto agregado al carrito');
+            } else {
+                alert('Error al agregar producto al carrito');
+            }
+        } catch (error) {
+            console.error('Error al agregar producto al carrito:', error);
+        }
+    }
+</script>

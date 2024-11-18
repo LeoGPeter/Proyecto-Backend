@@ -8,6 +8,7 @@ import viewsRouter from './routes/viewsRouter.js';
 import * as path from "path";
 import __dirname from "./utils.js";
 import { connectMongo } from "./config/mongo.js";
+import chatRouter from './routes/chatRouter.js';
 
 const app = express();
 const server = createServer(app);
@@ -15,7 +16,16 @@ const io = new Server(server);
 
 app.use(express.json());
 
-app.engine("handlebars", engine());
+app.engine(
+    'handlebars',
+    engine({
+        defaultLayout: 'main',
+        runtimeOptions: {
+            allowProtoPropertiesByDefault: true,
+            allowProtoMethodsByDefault: true,
+        },
+    })
+);
 app.set('view engine', 'handlebars');
 app.set("views", path.resolve(__dirname + "/views"));
 
@@ -24,6 +34,7 @@ app.use('/', viewsRouter);
 
 app.use('/api/products', productsRouter(io));
 app.use('/api/carts', cartsRoutes);
+app.use('/chat', chatRouter(io));
 
 io.on('connection', (socket) => {
     console.log('Nuevo cliente conectado');

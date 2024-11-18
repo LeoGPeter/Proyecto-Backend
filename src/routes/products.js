@@ -1,25 +1,44 @@
-// src/routes/productsRouter.js
 import { Router } from 'express';
 import { ProductManagerMongo } from '../dao/mongoManagers/productManagerMongo.js';
 import ProductsManager from '../dao/productsManager.js';
+import  ProductModel  from '../dao/models/product.model.js';
 
 export default function productsRouter(io) {
   const router = Router();
   const useMongoDB = "mongodb+srv://leopeter98:Peter75745@cluster0.vrd1o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
   const productsManager = useMongoDB ? new ProductManagerMongo() : new ProductsManager('./src/data/productos.json');
 
-  router.get('/', async (req, res) => {
-    try {
-      const products = await productsManager.getAll();
-      const { limit } = req.query;
-      if (limit) {
-        return res.json(products.slice(0, limit));
-      }
-      res.json(products);
-    } catch (error) {
-      res.status(500).json({ error: 'Error al obtener los productos' });
-    }
-  });
+router.get('/', async (req, res) => {
+  try {
+      const { limit = 10, page = 1, sort, query } = req.query;
+      const options = {
+          limit: parseInt(limit),
+          page: parseInt(page),
+          sort: sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {},
+      };
+
+      const filter = query ? { $or: [{ category: query }, { status: query }] } : {};
+
+      const products = await ProductModel.paginate(filter, options);
+
+      res.status(200).json({
+          status: 'success',
+          payload: products.docs,
+          totalPages: products.totalPages,
+          prevPage: products.hasPrevPage ? products.page - 1 : null,
+          nextPage: products.hasNextPage ? products.page + 1 : null,
+          page: products.page,
+          hasPrevPage: products.hasPrevPage,
+          hasNextPage: products.hasNextPage,
+          prevLink: products.hasPrevPage ? `/products?page=${products.page - 1}` : null,
+          nextLink: products.hasNextPage ? `/products?page=${products.page + 1}` : null,
+      });
+  } catch (error) {
+      console.error('Error al obtener productos:', error);
+      res.status(500).json({ status: 'error', message: 'Error al obtener productos' });
+  }
+});
+
 
   router.get('/:pid', async (req, res) => {
     try {
